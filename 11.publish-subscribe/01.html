@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .box {
+        display: flex;
+      }
+
+      .box .left {
+        width: 30%;
+        height: 500px;
+        background-color: skyblue;
+      }
+
+      .box .right {
+        width: 70%;
+        height: 500px;
+        background-color: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header"></header>
+    <div class="box">
+      <div class="left">
+        <ul>
+          <li>首页</li>
+          <li>用户管理</li>
+          <li>权限管理</li>
+          <li>新闻管理</li>
+        </ul>
+      </div>
+      <div class="right">
+        <div class="bread"></div>
+      </div>
+    </div>
+
+    <script>
+      class SubPub {
+        constructor() {
+          this.message = {};
+        }
+
+        subscribe(type, fn) {
+          if (!this.message[type]) {
+            this.message[type] = [fn];
+          } else {
+            this.message[type].push(fn);
+          }
+        }
+
+        removeSubscribe(type, fn) {
+          if (!this.message[type]) return;
+          if (!fn) {
+            this.message[type] && (this.message[type].length = 0);
+          }
+
+          this.message[type] = this.message[type].filter((item) => item !== fn);
+        }
+
+        publish(type, data) {
+          if (!this.message[type]) return;
+          this.message[type].forEach((item) => {
+            item(data);
+          });
+        }
+      }
+
+      let subPub = new SubPub();
+      let bread = document.querySelector(".bread");
+
+      function updateBread(data) {
+        bread.innerHTML = data;
+      }
+      subPub.subscribe("Bread", updateBread);
+      let oli = document.querySelectorAll(".left li");
+
+      for (let i = 0; i < oli.length; i++) {
+        oli[i].onclick = function () {
+          subPub.publish("Bread", this.innerHTML);
+        };
+      }
+    </script>
+  </body>
+</html>

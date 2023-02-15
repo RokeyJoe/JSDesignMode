@@ -1,0 +1,54 @@
+<!-- 单例模式应用，动态生成单例对话框Modal-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .joe-modal {
+            position: fixed;
+            height: 200px;
+            width: 200px;
+            line-height: 200px;
+            text-align: center;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+    <button id="open">打开</button>
+    <button id="close">关闭</button>
+    <script>
+        const Modal = (function() {
+            let instance = null;
+            // 此处返回的是一个function， 而不是直接返回instance
+            // 否则，instance会直接生成，而不是执行Modal() 再生成 (无法需要的时候再动态生成， 而且也不再是单例)
+            return function() {  
+                if(!instance) {
+                instance = document.createElement('div');
+                instance.innerHTML = "请重新登陆";
+                instance.className = 'joe-modal';
+                instance.display = 'none';
+                document.body.appendChild(instance)
+            }
+            return instance;
+            }
+            
+        })();
+
+        document.querySelector('#open').onclick= function() {
+            const modal = Modal();
+            modal.style.display = 'block';
+        };
+        document.querySelector('#close').onclick= function() {
+            const modal = Modal();
+            modal.style.display = 'none';
+        };
+    </script>
+</body>
+</html>

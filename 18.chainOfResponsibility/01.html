@@ -1,0 +1,73 @@
+<!-- 
+    使多个对象都有机会处理请求，从而避免了请求的发送者与多个接收者直接的耦合关系，
+    将这些接受者连接成一条链，顺着这条链传递该请求，直到找到能处理该请求的对象。
+ -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" id="count" />
+    <button id="btn">注册</button>
+    <script>
+      class Chain {
+        constructor(fn) {
+          this.checkRule = fn;
+          this.nextRule = null;
+        }
+        add(fn) {
+          this.nextRule = new Chain(fn);
+          return this.nextRule; // 此处需要返回 next， 便于add新的Chain对象到责任链上
+        }
+
+        end() {
+          this.nextRule = {
+            check: () => "End",
+          };
+        }
+
+        check() {
+          this.checkRule() === "next" ? this.nextRule.check() : null;
+        }
+      }
+
+      function checkEmpty() {
+        if (count.value.length === 0) {
+          console.log("这里不能为空");
+          return;
+        }
+        return "next";
+      }
+
+      function checkIsNumber() {
+        if (Number.isNaN(+count.value)) {
+          console.log("这里必须是数字");
+          return;
+        }
+        return "next";
+      }
+
+      function checkLength() {
+        if (count.value.length < 6) {
+          console.log("长度必须大于等于6");
+          return;
+        }
+        return "next";
+      }
+      // 不能写成 下面这种，否则的话， checks不再指向new Chain(checkEmpty)，而是undefined， 因为末尾的end没有返回
+      //   const checks = new Chain(checkEmpty)
+      //     .add(checkIsNumber)
+      //     .add(checkLength)
+      //     .end();
+      const checks = new Chain(checkEmpty);
+      checks.add(checkIsNumber).add(checkLength).end();
+      btn.addEventListener("click", () => {
+        checks.check();
+      });
+    </script>
+  </body>
+</html>

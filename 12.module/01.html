@@ -1,0 +1,39 @@
+
+<!-- module模式使用了闭包封装“私有”状态和组织。
+    它提供了一种包装混合公有/私有方法和变量的方式，防止其泄露至全局作用域，并与别的开发人员的接口冲突。
+    通过该模式，只需要返回一个公有的API, 而其他的一切则都维持在私有闭包里。 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <script src="./closure.js">
+        console.log(test);
+    </script> -->
+
+    <!-- 使用module, 可能会报跨域错误：
+    has been blocked by CORS policy: 
+    Cross origin requests are only supported for protocol schemes: 
+    http, data, isolated-app, chrome-extension, chrome-untrusted, https, edge. 
+    原因： 浏览器在访问本地js 文件的时候遇到了跨域的问题
+    解决： 使用Live Server
+    -->
+    <!-- <script type="module">
+      import myObj from "./1.js";
+      console.log(myObj)
+      let value = myObj.increase();
+      console.log(value);
+    </script> -->
+
+    <script type="module">
+      import { increase, descrease } from "./2.js";
+      console.log(increase);
+      let value = increase();
+      console.log(value);
+    </script>
+  </body>
+</html>

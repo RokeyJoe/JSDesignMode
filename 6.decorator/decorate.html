@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="filmBtn">万里归途</button>
+    <script>
+      /**
+       * 装饰器模式能够很好的对已有功能进行拓展，这样不会更改原有的代码，对其他的业务产生影响，
+       * 这方便我们在较少的改动下对软件功能进行拓展。
+       */
+
+      Function.prototype.before = function (beforeFn) {
+        // 此处不保存this的话， 在返回函数中的就找不到test()的this指针了
+        var _this = this;
+
+        return function () {
+          beforeFn.apply(this, arguments);
+          return _this.apply(this, arguments);
+        };
+      };
+
+      Function.prototype.after = function (afterFn) {
+        var _this = this;
+        return function () {
+          let result = _this.apply(this, arguments);
+          afterFn.apply(this, arguments);
+          return result;
+        };
+      };
+
+      function log() {
+        console.log("上传uv,pv数据");
+      }
+
+      function render() {
+        console.log("页面处理逻辑");
+      }
+
+      render = render.before(log);
+      filmBtn.onclick = function () {
+        // ......
+        // log();
+        render();
+        // ......
+      };
+
+      //  axios, jquery, before , interceptors
+      function ajax(url, method, params) {
+        console.log(url, method, params);
+      }
+
+      // 需要传token
+      ajax1 = ajax.before((url, method, params) => {
+        params.token = "aaaaaaaaa";
+      });
+
+      // 需要传token
+      ajax1("/api", "post", {
+        name: "Joe",
+      });
+    </script>
+  </body>
+</html>
