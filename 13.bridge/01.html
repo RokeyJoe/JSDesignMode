@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script>
+      const Animation = {
+        bounce: {
+          show: function () {
+            console.log("弹出显示");
+          },
+          hide: function () {
+            console.log("弹出隐藏");
+          },
+        },
+        rotate: {
+          show: function () {
+            console.log("旋转显示");
+          },
+          hide: function () {
+            console.log("旋转隐藏");
+          },
+        },
+        slide: {
+          show: function () {
+            console.log("滑动显示");
+          },
+          hide: function () {
+            console.log("滑动隐藏");
+          },
+        },
+      };
+
+      function Message(ele, animation) {
+        this.ele = ele;
+        this.animation = animation;
+      }
+
+      Message.prototype.show = function () {
+        this.animation.show();
+      };
+      Message.prototype.hide = function () {
+        this.animation.hide();
+      };
+      let box = document.querySelector("box");
+      let instance = new Message("box", Animation.slide);
+      instance.show();
+      setTimeout(() => {
+        instance.hide();
+      }, 1000);
+    </script>
+  </body>
+</html>

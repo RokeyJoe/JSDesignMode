@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      li {
+        display: flex;
+        justify-content: space-between;
+      }
+      .grayItem {
+        background-color: gray;
+      }
+      .yellowItem {
+        background-color: yellow;
+      }
+      .greenItem {
+        background-color: green;
+      }
+      .redItem {
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="mylist"></ul>
+
+    <script>
+      let list = [
+        {
+          title: "那个男人来了",
+          type: 1,
+        },
+        {
+          title: "震惊",
+          type: 2,
+        },
+        {
+          title: "Joe coming",
+          type: 3,
+        },
+        {
+          title: "Joe left",
+          type: 4,
+        },
+      ];
+
+      const obj = {
+        1: {
+          content: "待审核",
+          className: "grayItem",
+        },
+        2: {
+          content: "审核中",
+          className: "yellowItem",
+        },
+        3: {
+          content: "已通过",
+          className: "greenItem",
+        },
+        4: {
+          content: "被驳回",
+          className: "redItem",
+        },
+      };
+
+      mylist.innerHTML = list
+        .map(
+          (item) =>
+            `
+        <li>
+            <div>${item.title}</div>
+            <div class="${obj[item.type].className}">${
+              obj[item.type].content
+            }</div>
+        </li>
+        `
+        )
+        .join("");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!-- 场景： 客户，订单，仓库 -->
+<!-- 
+有时候需要向某些对象发送请求， 但是并不知道请求的接受者是谁，也不知道被请求的操作是什么。
+需要一种松耦合的方式来设计程序， 使得发送者和接收者能够消除彼此之间的耦合关系。
+命令模式由三种角色构成：
+1.发布者invoker（发出命令， 调用命令对象， 不知道如何执行与谁执行）
+2.接受者receiver（提供对应接口处理请求， 不知道谁发起请求）；
+3.命令对象command（接受命令，调用接收者对应接口处理发布者的请求）、
+ -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Receiver {
+        execute() {
+          console.log("Receiver 处理请求");
+        }
+      }
+
+      class Command {
+        constructor(receiver) {
+          this.receiver = receiver;
+        }
+
+        execute() {
+          console.log("Command 接受命令，调用接收者对应接口处理发布者的请求");
+          this.receiver.execute();
+        }
+      }
+
+      class Invoker {
+        constructor(command) {
+          this.command = command;
+        }
+
+        execute() {
+          console.log("Invoke 发出命令， 调用命令对象");
+          this.command.execute();
+        }
+      }
+
+      const command = new Command(new Receiver());
+      const invoker = new Invoker(command);
+      invoker.execute();
+    </script>
+  </body>
+</html>
